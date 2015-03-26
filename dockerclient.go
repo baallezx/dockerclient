@@ -40,6 +40,15 @@ type Error struct {
 	msg        string
 }
 
+// <@>
+type DockerError struct {
+	conatiner_id string
+	error_code   error
+	error_id     int
+}
+
+// <@>
+
 func (e Error) Error() string {
 	return fmt.Sprintf("%s: %s", e.Status, e.msg)
 }
@@ -288,6 +297,9 @@ func (client *DockerClient) StartMonitorStats(id string, cb StatCallback, ec cha
 
 func (client *DockerClient) getStats(id string, cb StatCallback, ec chan error, args ...interface{}) {
 	uri := fmt.Sprintf("%s/%s/containers/%s/stats", client.URL.String(), APIVersion, id)
+
+	log.Println("URI:   ", uri)
+
 	resp, err := client.HTTPClient.Get(uri)
 	if err != nil {
 		ec <- err
