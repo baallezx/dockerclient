@@ -308,6 +308,7 @@ func (client *DockerClient) getStats(id string, cb StatCallback, ec chan error, 
 
 func (client *DockerClient) GetStats(id string, statsChan chan Stats, errorChan chan ContainerError, exitChan chan bool) {
 	uri := fmt.Sprintf("%s/%s/containers/%s/stats", client.URL.String(), APIVersion, id)
+	fmt.Println("Can you see me????")
 	resp, err := client.HTTPClient.Get(uri)
 	if err != nil {
 		errorChan <- ContainerError{Error: err, ContainerId: id}
